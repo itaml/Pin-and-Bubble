@@ -2,24 +2,11 @@
 
 public class Pin : MonoBehaviour
 {
-    public float speed = 1f; 
-    float timeLeft = 0.5f;
-    public bool flip;
     public float MAX_FORCE = 500f;
+    public int lives = 3;
 
     void Update()
     {
-        if (flip)
-        {
-            transform.Rotate(0, 0, speed );
-            timeLeft -= Time.deltaTime;
-            if (timeLeft < 0)
-            {
-                flip = false;
-                timeLeft = 0.5f;
-            }
-        }
-
         Vector2 dir = (GetMouseWorldPosition() - transform.position).normalized;
     }
 

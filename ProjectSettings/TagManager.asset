@@ -6,9 +6,6 @@ TagManager:
   tags:
   - Flower
   - Bubble
-  - Red
-  - Blue
-  - Green
   layers:
   - Default
   - TransparentFX

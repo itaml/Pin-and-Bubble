@@ -2,12 +2,13 @@
 
 public class End : MonoBehaviour
 {
-    public Pin pin_class;
-    public Tap tap_class;
-    public GameObject red;
-    public GameObject blue;
-    public GameObject green;
+    [SerializeField] private Pin pin_class;
     private Rigidbody2D rb;
+    public GameObject bubble_dead;
+    public Inputs inputs_class;
+    public GameObject live1;
+    public GameObject live2;
+    public GameObject live3;
 
     void Start()
     {
@@ -18,27 +19,46 @@ public class End : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Flower"))
         {
-            pin_class.flip = false;
-            rb.isKinematic = true;
-            rb.simulated = false;
-            tap_class.gameOver = true;
-            pin_class.transform.parent = collision.transform;
+            if (pin_class.lives != 0) pin_class.lives--;
+            if(pin_class.lives == 3)
+            {
+                live1.SetActive(true);
+                live2.SetActive(true);
+                live3.SetActive(true);
+            }
+            if(pin_class.lives == 2)
+            {
+                live1.SetActive(true);
+                live2.SetActive(true);
+                live3.SetActive(false);
+            }
+            if(pin_class.lives == 1)
+            {
+                live1.SetActive(true);
+                live2.SetActive(false);
+                live3.SetActive(false);
+            }
+            if (pin_class.lives == 0)
+            {
+                live1.SetActive(false);
+                live2.SetActive(false);
+                live3.SetActive(false);
+                rb.isKinematic = true;
+                rb.simulated = false;
+                inputs_class.gameOver = true;
+                pin_class.transform.parent = collision.transform;
+            }
         }
 
-        if (collision.gameObject.CompareTag("Red"))
+        if (collision.gameObject.CompareTag("Bubble"))
         {
             Destroy(collision.gameObject);
-            Instantiate(red,collision.gameObject.transform.position,collision.gameObject.transform.rotation);
+            Instantiate(bubble_dead, collision.gameObject.transform.position, collision.gameObject.transform.rotation); ;
         }
-        if (collision.gameObject.CompareTag("Blue"))
+
+        if (collision.gameObject.name == "final")
         {
-            Destroy(collision.gameObject);
-            Instantiate(blue, collision.gameObject.transform.position, collision.gameObject.transform.rotation); ;
-        }
-        if (collision.gameObject.CompareTag("Green"))
-        {
-            Destroy(collision.gameObject);
-            Instantiate(green, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+            inputs_class.gameOver = true;
         }
     }
 }
